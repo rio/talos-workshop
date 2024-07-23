@@ -1,0 +1,51 @@
+name: talos-workshop
+
+services:
+  talos-cp:
+    image: ghcr.io/siderolabs/talos:v1.7.5
+    environment:
+        - PLATFORM=container
+    read_only: true
+    privileged: true
+    security_opt:
+      - seccomp=unconfined
+    volumes:
+      - type: volume
+        target: /var
+      - type: volume
+        target: /etc/cni
+      - type: volume
+        target: /etc/kubernetes
+      - type: volume
+        target: /usr/libexec/kubernetes
+      - type: volume
+        target: /opt
+    tmpfs:
+      - /run
+      - /system
+      - /tmp
+      - /system/state
+  talos-worker:
+    image: ghcr.io/siderolabs/talos:v1.7.5
+    environment:
+        - PLATFORM=container
+    read_only: true
+    privileged: true
+    security_opt:
+      - seccomp=unconfined
+    volumes:
+      - type: volume
+        target: /var
+      - type: volume
+        target: /etc/cni
+      - type: volume
+        target: /etc/kubernetes
+      - type: volume
+        target: /usr/libexec/kubernetes
+      - type: volume
+        target: /opt
+    tmpfs:
+      - /run
+      - /system
+      - /tmp
+      - /system/state
