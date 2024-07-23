@@ -1,8 +1,13 @@
 name: talos-workshop
 
+volumes:
+  cp-state:
+  worker-state:
+
 services:
   talos-cp:
-    image: ghcr.io/siderolabs/talos:v1.7.5
+    image: ghcr.io/siderolabs/talos:v1.7.4
+    hostname: talos-cp
     environment:
         - PLATFORM=container
     read_only: true
@@ -20,13 +25,14 @@ services:
         target: /usr/libexec/kubernetes
       - type: volume
         target: /opt
+      - cp-state:/system/state
     tmpfs:
       - /run
       - /system
       - /tmp
-      - /system/state
   talos-worker:
-    image: ghcr.io/siderolabs/talos:v1.7.5
+    image: ghcr.io/siderolabs/talos:v1.7.4
+    hostname: talos-worker
     environment:
         - PLATFORM=container
     read_only: true
@@ -44,8 +50,8 @@ services:
         target: /usr/libexec/kubernetes
       - type: volume
         target: /opt
+      - worker-state:/system/state
     tmpfs:
       - /run
       - /system
       - /tmp
-      - /system/state
